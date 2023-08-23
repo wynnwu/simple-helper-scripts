@@ -1,4 +1,3 @@
-# simple-helper-scripts
-Simple helper scripts.
+# Simple Helper Scripts 
 
-Made quickly. To save time. Not the best scripting; just does the job.
+Made quickly to save time for bulk processing usually. Not the best scripting but get's the job done. ✌️

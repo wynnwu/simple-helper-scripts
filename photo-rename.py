@@ -22,6 +22,7 @@ def get_exif_datetime_as_object(r, file):
 
     img = PIL.Image.open(os.path.join(r, file))
     exif = img._getexif()
+    # print(exif) # Show the EXIF object. Sometimes the object, or 36867 is missing. Need to handle this.
     return datetime.strptime(exif[36867], '%Y:%m:%d %H:%M:%S')
 
 # Adjustment loop. Input: rename? Yes
@@ -62,7 +63,19 @@ def rename_photos(target_folder_path):
     for r, d, f in os.walk(target_folder_path):
         for file in f:
             print("Processing: " + file)
-            if 'dsc_' in file or 'DCS_' in file:
+            if ' -- ' in file:
+            	pass
+            # elif 'IMG_' in file:
+            # 	tempFileName = file.lower().split('.jpg')[0]
+            # 	splitFileName = tempFileName.lower().split('_')
+            # 	if len(splitFileName) == 4:
+            # 		os.rename(os.path.join(r, file), os.path.join(r, splitFileName[1][2:] + '-' + splitFileName[2]) + ' -- ' + splitFileName[3] + ' - img.jpg')            		
+            # 	elif len(splitFileName) == 3:
+            # 		os.rename(os.path.join(r, file), os.path.join(r, splitFileName[1][2:] + '-' + splitFileName[2]) + ' -- img.jpg')
+            # 	else:
+            # 		print("#"*10 + ' SOMETHING BAD')				
+
+            elif 'dsc_' in file or 'DCS_' in file:
                 try:
                     datetime_object = get_exif_datetime_as_object(r, file)
                     print('Processing: ', os.path.join(r, file), '  |  ', datetime_object)
@@ -119,5 +132,7 @@ def fix_name(target_folder_path):
                 os.rename(os.path.join(r, file), os.path.join(r, file.split(' -- ')[1]))
 
 # adjustment_test('INSERT PATH')
-rename_photos('INSERT PATH')
+rename_photos('/Users/xwu1/Dropbox/Photos/Google Photos/2007')
 # fix_name('INSERT PATH')
+
+# TODO: Fix handling when the file does not have the correct EXIF object.
